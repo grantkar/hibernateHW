@@ -12,6 +12,8 @@ public class MainApp {
 //        Product product = new Product("screwDriver", 100);
 //        product.setId(8L);
 //        System.out.println(productDao.saveOrUpdate(product));
+//        productDao.deleteById(8L);
+        System.out.println(productDao.findAll());
 
 
     }
