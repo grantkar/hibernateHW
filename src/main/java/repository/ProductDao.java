@@ -10,7 +10,6 @@ import java.util.List;
 public class ProductDao {
 
     private Product product;
-    private List<Product> products;
 
     SessionFactory sessionFactory = new Configuration()
             .configure("hibernate.cfg.xml")
@@ -18,6 +17,8 @@ public class ProductDao {
             .buildSessionFactory();
 
     Session session = null;
+
+
 
     // CRUD
 
@@ -43,12 +44,23 @@ public class ProductDao {
     }
 
     public List<Product> findAll() {
-        return products;
+        session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        List<Product> allProduct = session.createQuery("from Product").getResultList();
+        session.getTransaction().commit();
+        sessionFactory.close();
+        return allProduct;
     }
 
     //DELETE
     public void deleteById(Long id) {
+        session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        product = session.get(Product.class, id);
+        session.delete(product);
+        session.getTransaction().commit();
         System.out.println(product);
+        sessionFactory.close();
     }
 
     //UPDATE
@@ -62,4 +74,6 @@ public class ProductDao {
         sessionFactory.close();
         return product;
     }
+
+
 }
